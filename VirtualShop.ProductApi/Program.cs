@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using VirtualShop.ProductApi.Context;
+
 namespace VirtualShop.ProductApi
 {
     public class Program
@@ -12,6 +15,12 @@ namespace VirtualShop.ProductApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            var mySqlConnection = builder.Configuration.GetConnectionString("DataBase");
+
+            builder.Services.AddDbContext<AppDbContext>(options => 
+                             options.UseMySql(mySqlConnection, 
+                             ServerVersion.AutoDetect(mySqlConnection)));
 
             var app = builder.Build();
 
