@@ -22,6 +22,16 @@ namespace VirtualShop.ProductApi
                              options.UseMySql(mySqlConnection, 
                              ServerVersion.AutoDetect(mySqlConnection)));
 
+
+            //builder.Services.AddEntityFrameworkSqlServer()
+            //    .AddDbContext<AppDbContext>
+            //    (
+            //        options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
+            //    );
+
+            //builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+            //builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
