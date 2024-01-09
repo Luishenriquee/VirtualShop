@@ -23,11 +23,10 @@ namespace VirtualShop.ProductApi
             //                 ServerVersion.AutoDetect(mySqlConnection)));
 
 
-            builder.Services.AddEntityFrameworkSqlServer()
-                .AddDbContext<AppDbContext>
-                (
-                    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
-                );
+            builder.Services.AddEntityFrameworkSqlServer().AddDbContext<AppDbContext>
+            (
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
+            );
 
             //builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             //builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
