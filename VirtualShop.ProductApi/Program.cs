@@ -16,18 +16,17 @@ namespace VirtualShop.ProductApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var mySqlConnection = builder.Configuration.GetConnectionString("DataBase");
+            //var mySqlConnection = builder.Configuration.GetConnectionString("DataBase");
 
-            builder.Services.AddDbContext<AppDbContext>(options => 
-                             options.UseMySql(mySqlConnection, 
-                             ServerVersion.AutoDetect(mySqlConnection)));
+            //builder.Services.AddDbContext<AppDbContext>(options => 
+            //                 options.UseMySql(mySqlConnection, 
+            //                 ServerVersion.AutoDetect(mySqlConnection)));
 
 
-            //builder.Services.AddEntityFrameworkSqlServer()
-            //    .AddDbContext<AppDbContext>
-            //    (
-            //        options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
-            //    );
+            builder.Services.AddEntityFrameworkSqlServer().AddDbContext<AppDbContext>
+            (
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
+            );
 
             //builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             //builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
