@@ -30,6 +30,7 @@ namespace VirtualShop.ProductApi
 
             //builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             //builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();
 
