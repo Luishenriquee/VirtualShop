@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VirtualShop.ProductApi.Context.Map;
 using VirtualShop.ProductApi.Models;
 
 namespace VirtualShop.ProductApi.Context;
@@ -8,14 +7,38 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Category> Categories {  get; set; }
+    public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new CategoryMap());
-        modelBuilder.ApplyConfiguration(new ProductMap());
-        modelBuilder.Entity<Category>().HasMany(p => p.Products).WithOne(c => c.Category).IsRequired().OnDelete(DeleteBehavior.Cascade);
+        //Category
+        modelBuilder.Entity<Category>().HasKey(c => c.CategoryId);
+
+        modelBuilder.Entity<Category>().Property(c => c.Name)
+                                       .HasMaxLength(100)
+                                       .IsRequired();
+
+        //Product
+        modelBuilder.Entity<Product>().Property(p => p.Name)
+                                      .HasMaxLength(100)
+                                      .IsRequired();
+
+        modelBuilder.Entity<Product>().Property(p => p.Description)
+                                      .HasMaxLength(255)
+                                      .IsRequired();
+
+        modelBuilder.Entity<Product>().Property(p => p.ImageURL)
+                                      .HasMaxLength(255)
+                                      .IsRequired();
+
+        modelBuilder.Entity<Product>().Property(p => p.Price)
+                                      .HasPrecision(12, 2);
+
+        modelBuilder.Entity<Category>().HasMany(c => c.Products)
+                                       .WithOne(c => c.Category)
+                                       .IsRequired()
+                                       .OnDelete(DeleteBehavior.Cascade);
 
         //Popular tabela
         modelBuilder.Entity<Category>().HasData(
@@ -30,7 +53,5 @@ public class AppDbContext : DbContext
                 Name = "Acessórios"
             }
         );
-
-        base.OnModelCreating(modelBuilder);
     }
 }
