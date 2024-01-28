@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VirtualShop.Web.Models;
 using VirtualShop.Web.Services.Contracts;
 
@@ -7,12 +9,16 @@ namespace VirtualShop.Web.Controllers;
 public class ProductsController : Controller
 {
     private readonly IProductService _productService;
+	private readonly ICategoryService _categoryService;
 
-    public ProductsController(IProductService productService)
+
+	public ProductsController(IProductService productService, ICategoryService categoryService)
     {
         _productService = productService;
+        _categoryService = categoryService;
     }
 
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductViewModel>>> Index()
     {
         var result = await _productService.GetAllProducts();
@@ -22,4 +28,27 @@ public class ProductsController : Controller
 
         return View(result);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> CreateProduct()
+    {
+        ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "Name");
+        return View();
+    }
+
+	[HttpPost]
+	public async Task<IActionResult> CreateProduct(ProductViewModel productVM)
+	{
+		if(!ModelState.IsValid)
+			ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "Name");
+        else
+        {
+            var result = await _productService.CreateProduct(productVM);
+
+            if(result != null)
+                return RedirectToAction(nameof(Index));
+        }
+
+        return View(productVM);
+	}
 }
