@@ -28,7 +28,6 @@ partial class AppDbContextModelSnapshot : ModelSnapshot
                 SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
 
                 b.Property<string>("Name")
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnType("nvarchar(100)");
 
@@ -61,17 +60,14 @@ partial class AppDbContextModelSnapshot : ModelSnapshot
                     .HasColumnType("int");
 
                 b.Property<string>("Description")
-                    .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnType("nvarchar(255)");
 
                 b.Property<string>("ImageURL")
-                    .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnType("nvarchar(255)");
 
                 b.Property<string>("Name")
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnType("nvarchar(100)");
 
