@@ -25,9 +25,16 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> Create(Product product)
     {
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync();
-        return product;
+        try 
+        {
+			_context.Products.Add(product);
+			await _context.SaveChangesAsync();
+			return product;
+		}
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 
     public async Task<Product> Update(Product product)

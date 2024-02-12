@@ -30,9 +30,16 @@ public class ProductService : IProductService
 
     public async Task AddProduct(ProductDTO productDto)
     {
-        var product = _mapper.Map<Product>(productDto);
-        await _productRepository.Create(product);
-        productDto.Id = product.Id;
+        try
+        {
+			var product = _mapper.Map<Product>(productDto);
+			await _productRepository.Create(product);
+			productDto.Id = product.Id;
+		}
+        catch(Exception ex)
+        {
+            throw ex;
+        }
     }
     public async Task UpdateProduct(ProductDTO productDto)
     {
